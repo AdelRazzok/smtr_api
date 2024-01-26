@@ -10,6 +10,7 @@ export default defineConfig({
       environment: ['repl', 'test'],
     },
     () => import('@adonisjs/lucid/database_provider'),
+    () => import('@adonisjs/auth/auth_provider'),
   ],
   preloads: [() => import('#start/routes'), () => import('#start/kernel')],
   tests: {
