@@ -3,6 +3,7 @@ import { withAuthFinder } from '@adonisjs/auth'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, beforeSave, column } from '@adonisjs/lucid/orm'
+import { Secret } from '@poppinss/utils'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -23,13 +24,16 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare password: string
 
   @column({
-    prepare: (): void => {},
-    consume: (): void => {},
+    prepare: (accessToken: Secret<string>) => accessToken.release(),
+    consume: (accessToken) => new Secret(accessToken),
   })
-  declare accessToken: string
+  declare accessToken: Secret<string>
 
-  @column()
-  declare refreshToken: string
+  @column({
+    prepare: (refreshToken: Secret<string>) => refreshToken.release(),
+    consume: (refreshToken) => new Secret(refreshToken),
+  })
+  declare refreshToken: Secret<string>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
