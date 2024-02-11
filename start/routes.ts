@@ -1,5 +1,6 @@
 import router from '@adonisjs/core/services/router'
 const SessionController = () => import('#auth/controllers/session_controller')
+const UsersController = () => import('#auth/controllers/users_controller')
 
 router.get('/', async ({ response }) => response.ok({ uptime: Math.round(process.uptime()) }))
 router.get('health', async ({ response }) => response.noContent())

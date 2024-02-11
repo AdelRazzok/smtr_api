@@ -1,4 +1,5 @@
 import User from '#auth/models/user'
+import { createUserValidator, updateUserValidator } from '#validators/user_validators'
 
 export default class UserService {
   async all() {
@@ -9,15 +10,16 @@ export default class UserService {
     return User.findOrFail(id)
   }
 
-  async create(data: any) {
-    return User.create(data)
+  async create(data: {}) {
+    const payload = await createUserValidator.validate(data)
+    return User.create(payload)
   }
 
-  async update(id: number, data: any) {
-    const user = await User.findOrFail(id)
-    user.merge(data)
-    await user.save()
-    return user
+  async update(id: number, data: {}) {
+    const currentUser = await User.findOrFail(id)
+    const payload = await updateUserValidator.validate(data)
+    const newUser = await currentUser.merge(payload).save()
+    return newUser
   }
 
   async delete(id: number) {
