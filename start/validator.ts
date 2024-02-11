@@ -6,4 +6,5 @@ vine.messagesProvider = new SimpleMessagesProvider({
   url: 'URL invalide',
   minLength: 'Le champ {{ field }} est trop court',
   maxLength: 'Le champ {{ field }} est trop long',
+  unique: 'Le champ {{ field }} est indisponible',
 })

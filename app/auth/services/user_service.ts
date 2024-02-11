@@ -3,16 +3,19 @@ import { createUserValidator, updateUserValidator } from '#validators/user_valid
 
 export default class UserService {
   async all() {
-    return User.all()
+    const users = await User.all()
+    return users
   }
 
   async find(id: number) {
-    return User.findOrFail(id)
+    const user = await User.findOrFail(id)
+    return user
   }
 
   async create(data: {}) {
     const payload = await createUserValidator.validate(data)
-    return User.create(payload)
+    const user = await User.create(payload)
+    return user
   }
 
   async update(id: number, data: {}) {
