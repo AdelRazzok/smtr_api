@@ -17,8 +17,8 @@ export default class UsersController {
   }
 
   async create({ request, response }: HttpContext) {
-    const user = await this.userService.create(request.all())
-    return response.status(201).send(user)
+    await this.userService.create(request.all())
+    return response.status(201)
   }
 
   async update({ params, request, response }: HttpContext) {
