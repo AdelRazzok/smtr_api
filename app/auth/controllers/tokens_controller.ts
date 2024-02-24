@@ -9,5 +9,8 @@ export default class TokensController {
     return token
   }
 
-  async destroy({}: HttpContext) {}
+  async destroy({ auth }: HttpContext) {
+    const user = auth.getUserOrFail()
+    await User.accessTokens.delete(user, user.currentAccessToken.identifier)
+  }
 }

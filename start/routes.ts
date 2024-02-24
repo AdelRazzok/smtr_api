@@ -8,9 +8,13 @@ router.get('/', async ({ response }) => {
 })
 router.get('health', async ({ response }) => response.noContent())
 
-router.post('signup', [UsersController, 'create'])
-router.post('signin', [TokensController, 'store'])
-router.get('signout', [TokensController, 'destroy'])
+router
+  .group(() => {
+    router.post('signup', [UsersController, 'create'])
+    router.post('signin', [TokensController, 'store'])
+    router.get('signout', [TokensController, 'destroy']).use(middleware.auth({ guards: ['api'] }))
+  })
+  .prefix('api/v1')
 
 router
   .group(() => {
